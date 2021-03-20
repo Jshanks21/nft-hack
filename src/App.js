@@ -1,21 +1,13 @@
 import logo from './logo.svg';
 import './App.css';
 import NFTCard from './components/NFTCard'
+import Header from './components/Header'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <div>
+        <Header></Header>
         <NFTCard></NFTCard>
-      </header>
     </div>
   );
 }
