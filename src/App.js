@@ -3,6 +3,7 @@ import './App.css';
 import NFTCard from './components/NFTCard'
 import Header from './components/Header'
 import BuySell from './components/BuySell'
+import DataGraph from './components/BuySell'
 
 function App() {
   return (
