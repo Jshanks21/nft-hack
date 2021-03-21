@@ -11,6 +11,7 @@ import { ethers } from 'ethers'
 import Web3Modal from 'web3modal';
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import MetaData from './components/MetaData'
 
 const CONTRACT_MUMBAI = '0x5BE326ba3D539a6C5387775465F6D24B798b3c49'
 const CONTRACT_RINKEBY = '0x01a9FBe75907846b4334454f0A3cEeaE322DcD74'
