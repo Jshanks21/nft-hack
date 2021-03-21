@@ -30,10 +30,19 @@ const logoutOfWeb3Modal = async () => {
 
 export default function Header() {
   const [injectedProvider, setInjectedProvider] = useState();
+  const [userAccount, setUserAccount] = useState();
 
   const loadWeb3Modal = useCallback(async () => {
     const provider = await web3Modal.connect();
     setInjectedProvider(new ethers.providers.Web3Provider(provider));
+      
+    if(!injectedProvider) return
+
+    let account = await injectedProvider.listAccounts()
+    localStorage.setItem('account', account)
+    localStorage.setItem('provider', injectedProvider)
+    setUserAccount(account)
+    console.log('accounts', account)
   }, [setInjectedProvider]);
 
   useEffect(() => {

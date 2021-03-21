@@ -4,6 +4,11 @@ import NFTCard from './components/NFTCard'
 import Header from './components/Header'
 import BuySell from './components/BuySell'
 import IpfsUpload from './components/IpfsUpload'
+import curve from './abi/curve'
+import curveMint from './abi/curveMint'
+import minter from './abi/minter'
+import { ethers } from 'ethers'
+import { local } from 'web3modal';
 
 const ipfsClient = require('ipfs-http-client')
 const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' })
@@ -36,14 +41,19 @@ function App() {
 		)
 		if (source && source.path) {
       setIpfsHash(x => [...x, source.path])
-			// setState(x => ({
-			// 	...x,
-			// 	ipfsHash: [...ipfsHash, source.path],
-			// }))
 		}
 		setLoading(false)
 		console.log('source', source)
 	}
+
+  const loadContract = () => {
+    const provider = localStorage.getItem('provider')
+    return new ethers.Contract(
+        CONTRACT_ADDRESS_RINKEBY, // replace with constant
+        curveMint,
+        provider.getSigner()
+    );
+};
 
 	// Could be useful somewhere else to get last NFT minted
 

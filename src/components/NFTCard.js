@@ -3,11 +3,6 @@ import AnimatedCard from "@sl-codeblaster/react-3d-animated-card";
 
 export default function NFTCard({ imageSource }) {
 
-	useEffect(() => {
-		console.log('imageSource', typeof imageSource)
-		console.log('imageSource 2 ', imageSource)
-	}, [imageSource])
-
 	let imageDisplay
 
 	if(imageSource.length > 0) {
