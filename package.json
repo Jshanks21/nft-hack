@@ -14,6 +14,7 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "@walletconnect/web3-provider": "^1.4.0",
+    "axios": "^0.21.1",
     "eth-hooks": "^1.1.2",
     "ethers": "^5.0.32",
     "hardhat": "^2.1.1",
