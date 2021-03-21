@@ -1,9 +1,9 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from './logo.svg'
+import './App.css'
 import NFTCard from './components/NFTCard'
 import Header from './components/Header'
 import BuySell from './components/BuySell'
-import DataGraph from './components/BuySell'
+import IpfsUpload from './components/IpfsUpload'
 
 function App() {
   return (
@@ -11,6 +11,7 @@ function App() {
         <Header></Header>
         <NFTCard></NFTCard>
         <BuySell></BuySell>
+        <IpfsUpload></IpfsUpload>
     </div>
   );
 }
