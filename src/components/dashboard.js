@@ -10,7 +10,6 @@ function DataFetching() {
     const url = 'https://api.covalenthq.com/v1/1/tokens/0xb80fbf6cdb49c33dc6ae4ca11af8ac47b0b4c0f3/nft_metadata/432/?key=ckey_693c563ac29c41bcbccfbe9326d';
     const url2 = 'https://api.covalenthq.com/v1/1/tokens/0xb80fbf6cdb49c33dc6ae4ca11af8ac47b0b4c0f3/nft_transactions/432/?key=ckey_693c563ac29c41bcbccfbe9326d';
     
-
     const getMetaData = axios.get(url);
     const getTransactions = axios.get(url2);
     
