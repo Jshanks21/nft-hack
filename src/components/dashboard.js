@@ -29,7 +29,7 @@ function DataFetching() {
     }, [])
 
     return (
-        <div>     
+        <div>  
         </div>
     )
   }
