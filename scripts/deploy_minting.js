@@ -15,10 +15,8 @@ async function main() {
 	console.log("CurveMintNFT deployed to:", curveMintContract.address)
 
 	// Instantiate and transfer ownership to curve
-	//const nft = await NFTMinter.attach(minterContract.address)
-
-	const minter = await NFTMinter.deployed()
-	await minter.transferOwnership(curveMintContract.address)
+	const nft = await NFTMinter.attach(minterContract.address)
+	await nft.transferOwnership(curveMintContract.address)
 
 }
 

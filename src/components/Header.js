@@ -6,7 +6,7 @@ import { NETWORK, NETWORKS } from '../constants.js';
 import Account from "./Account";
 
 
-const { INFURA_ID } = require('../secrets.json');
+const { INFURA_KEY } = require('../secrets.json');
 
 const web3Modal = new Web3Modal({
   // network: "mainnet", // optional
@@ -15,7 +15,7 @@ const web3Modal = new Web3Modal({
     walletconnect: {
       package: WalletConnectProvider, // required
       options: {
-        infuraId: INFURA_ID,
+        infuraId: INFURA_KEY,
       },
     },
   },
