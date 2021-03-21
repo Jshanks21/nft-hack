@@ -1,5 +1,5 @@
 import React,{Component} from "react";
-import Dashboard from '../components/covalent'
+import Dashboard from '../components/dashboard'
 import {
   BrowserRouter as Router,
   Switch,
