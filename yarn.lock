@@ -2000,6 +2000,11 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
+"@sl-codeblaster/react-3d-animated-card@^1.0.8":
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/@sl-codeblaster/react-3d-animated-card/-/react-3d-animated-card-1.0.8.tgz#5b8662ce3e0100dd2ade20f813560e094e2db097"
+  integrity sha512-U5MA7jOGQB2RpoTRBnP2IXbM0s1iFqvYm+9c++Fd9Q9lYpF/TtgXDa9LlvQ9j+JYwi62xUmKltvneq5SEBvWzA==
+
 "@solidity-parser/parser@^0.11.0":
   version "0.11.1"
   resolved "https://registry.yarnpkg.com/@solidity-parser/parser/-/parser-0.11.1.tgz#fa840af64840c930f24a9c82c08d4a092a068add"

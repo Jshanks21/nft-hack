@@ -1,6 +1,7 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+@import "~@sl-codeblaster/react-3d-animated-card/dist/index.css";
 
 .App {
   text-align: center;

@@ -4,8 +4,8 @@ class BuySell extends Component {
     render() { 
         return <div className="flex flex-row justify-between space-x-4">
             <p>The bonding curve is...</p>
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex">Buy</button>  
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex">Sell</button>    
+            <button className="font-display border-2 uppercase border-black hover:bg-black hover:text-white py-2 px-4 flex">Buy</button>
+            <button disabled className="disabled:opacity-50 font-display border-2 border-black uppercase hover:bg-black hover:text-white py-2 px-4 flex">Sell</button>
         </div>
     }
   }
