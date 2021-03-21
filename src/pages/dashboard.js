@@ -1,5 +1,6 @@
 import React,{Component} from "react";
-import Dashboard from '../components/dashboard'
+import Metadata from '../components/MetaData'
+import Transactions from '../components/Transactions'
 import {
   BrowserRouter as Router,
   Switch,
@@ -10,9 +11,9 @@ import {
 function Covalent() {
   return (
     <div>
-        <Dashboard></Dashboard>
+        <Metadata></Metadata>
     </div>
   );
 }
 
-export default Dashboard;
+export default Covalent
