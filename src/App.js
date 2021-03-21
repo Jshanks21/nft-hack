@@ -7,7 +7,7 @@ import DataGraph from './components/BuySell'
 
 function App() {
   return (
-    <div>
+    <div className="p-5">
         <Header></Header>
         <NFTCard></NFTCard>
         <BuySell></BuySell>
