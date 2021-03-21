@@ -8,12 +8,29 @@ import curve from './abi/curve'
 import curveMint from './abi/curveMint'
 import minter from './abi/minter'
 import { ethers } from 'ethers'
-import { local } from 'web3modal';
+import Web3Modal from 'web3modal';
+import WalletConnectProvider from "@walletconnect/web3-provider";
 
-const CONTRACT_MUMBAI = '0x8FE32445fe713e29E7e992573FAf5f9AEeB3A5f6'
+const CONTRACT_MUMBAI = '0x5BE326ba3D539a6C5387775465F6D24B798b3c49'
+const CONTRACT_RINKEBY = '0x01a9FBe75907846b4334454f0A3cEeaE322DcD74'
 
 const ipfsClient = require('ipfs-http-client')
 const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' })
+
+const { INFURA_KEY, WALLET_PRIV } = require('./secrets.json');
+
+// const web3Modal = new Web3Modal({
+//   // network: "mainnet", // optional
+//   cacheProvider: true, // optional
+//   providerOptions: {
+//     walletconnect: {
+//       package: WalletConnectProvider, // required
+//       options: {
+//         infuraId: INFURA_KEY,
+//       },
+//     },
+//   },
+// });
 
 function App() {
 	const [injectedProvider, setInjectedProvider] = useState();
@@ -50,11 +67,18 @@ function App() {
 		console.log('source', source)
 	}
 
-	const loadContract = () => {
+	let provider = new ethers.providers.JsonRpcProvider('https://rpc-mumbai.maticvigil.com/');
+
+	//let signer = ethers.Wallet.fromMnemonic(MNEMONIC)
+	let signer = new ethers.Wallet(WALLET_PRIV, provider);
+
+	const loadContract = async () => {
+		//const provider = await web3Modal.connect();
+    //const injectedProv = new ethers.providers.Web3Provider(provider);
 		return new ethers.Contract(
 			CONTRACT_MUMBAI,
 			curveMint,
-			injectedProvider
+			signer
 		);
 	};
 
@@ -92,6 +116,7 @@ function App() {
 				onSubmit={onSubmit}
 				captureFile={captureFile}
 				ipfsHash={ipfsHash}
+				injectedProvider={injectedProvider} 
 				contract={contract}
 			>
 			</IpfsUpload>

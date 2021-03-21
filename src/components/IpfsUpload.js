@@ -1,15 +1,35 @@
 import React, { useState, useEffect } from 'react';
+import { ethers } from 'ethers'
+
 
 const ipfsClient = require('ipfs-http-client')
 const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' })
 
-export default function IpfsUpload({state, setState, loading, onSubmit, captureFile, ipfsHash, contract}) {
+export default function IpfsUpload({state, setState, loading, onSubmit, captureFile, ipfsHash, injectedProvider, contract}) {
+
+	useEffect(async () => {
+		console.log('contract', await contract)
+	}, [contract])
 
 	const onPurchase = async () => {
 		if (!contract && !ipfsHash) return
 		try {
-		const buy = await contract.buy(ipfsHash)
+
+			const initContract = await contract
+			const price = await initContract.nextPrice()
+			// const txn = {
+			// 	to: contract.address,
+			// 	value: ethers.utils.parseUnits('0.01', 'ether') 
+			// }
+			
+			// injectedProvider.sendTransaction(txn)
+		
+		const buy = await initContract.buy(ipfsHash.toString(), {value: price})
+		await buy.wait()
+		
+		console.log('contract tests', price.toString())
 		console.log('buy', buy)
+
 		} catch(e) {
 			console.log('error', e)
 		}
