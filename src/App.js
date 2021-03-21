@@ -9,6 +9,8 @@ import curveMint from './abi/curveMint'
 import minter from './abi/minter'
 import { ethers } from 'ethers'
 import { local } from 'web3modal';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import MetaData from './components/MetaData';
 
 const CONTRACT_MUMBAI = '0x8FE32445fe713e29E7e992573FAf5f9AEeB3A5f6'
 
@@ -95,6 +97,9 @@ function App() {
 				contract={contract}
 			>
 			</IpfsUpload>
+			<Switch>
+			<Route path='/dashboard' component={MetaData} />
+			</Switch>
 		</div>
 	);
 }
