@@ -4,7 +4,7 @@ import { ethers } from 'ethers'
 
 const CONTRACT_MUMBAI = '0x5BE326ba3D539a6C5387775465F6D24B798b3c49'
 
-export default function NFTCard({ imageSource, contract }) {
+export default function NFTCard({ imageSource, contract, loading, setLoading }) {
 	const [cName, setCName] = useState('')
 	const [contractData, setContractData] = useState({
 		lastPrice: '',
@@ -43,9 +43,8 @@ export default function NFTCard({ imageSource, contract }) {
 
 		const name = await initContract.name()
 		setCName(name)
-
 		console.log('prices', ethers.utils.formatUnits(prevPrice), currentPrice.toString(), nextPrice.toString())
-	}, [contract])
+	}, [contract, loading])
 
 		
 	// if(imageSource) {
@@ -109,10 +108,9 @@ export default function NFTCard({ imageSource, contract }) {
 						{CONTRACT_MUMBAI}
 					</a>
 				</h2>
-				<p>Last Price of NFT: {contractData.lastPrice ? contractData.lastPrice : 'loading...'}</p>
-				<p>Price of <b>your</b> NFT: {contractData.currPrice ? contractData.currPrice : 'loading...'}</p>
-				<p>Price of next NFT: {contractData.nextPrice ? contractData.nextPrice : 'loading...'}</p>
-				<p>Amount of NFT available</p>
+				<p>Last Price of NFT: {contractData.lastPrice ? contractData.lastPrice : 'Loading...'}</p>
+				<p>Price of <b>your</b> NFT: {contractData.currPrice ? contractData.currPrice : 'Loading...'}</p>
+				<p>Price of next NFT: {contractData.nextPrice ? contractData.nextPrice : 'Loading...'}</p>
 			</div>
 		</div>
 		)

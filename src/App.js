@@ -19,7 +19,7 @@ const CONTRACT_RINKEBY = '0x01a9FBe75907846b4334454f0A3cEeaE322DcD74'
 const ipfsClient = require('ipfs-http-client')
 const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' })
 
-const { INFURA_KEY, WALLET_PRIV } = require('./secrets.json');
+const { WALLET_PRIV } = require('./secrets.json');
 
 // const web3Modal = new Web3Modal({
 //   // network: "mainnet", // optional
@@ -76,7 +76,7 @@ function App() {
 
 	const loadContract = async () => {
 		//const provider = await web3Modal.connect();
-    //const injectedProv = new ethers.providers.Web3Provider(provider);
+		//const injectedProv = new ethers.providers.Web3Provider(provider);
 		return new ethers.Contract(
 			CONTRACT_MUMBAI,
 			curveMint,
@@ -85,7 +85,7 @@ function App() {
 	};
 
 	useEffect(() => {
-		if(!injectedProvider) return
+		if (!injectedProvider) return
 		console.log('prov', injectedProvider)
 		const newContract = loadContract()
 		setContract(newContract)
@@ -102,14 +102,20 @@ function App() {
 
 	return (
 		<div className="p-5">
-			<Header 
-				injectedProvider={injectedProvider} 
-				setInjectedProvider={setInjectedProvider} 
-				setTrigger={setTrigger} 
+			<Header
+				injectedProvider={injectedProvider}
+				setInjectedProvider={setInjectedProvider}
+				setTrigger={setTrigger}
 				trigger={trigger}
+				contract={contract}
 			>
 			</Header>
-			<NFTCard imageSource={ipfsHash} contract={contract}></NFTCard>
+			<NFTCard
+				imageSource={ipfsHash}
+				contract={contract}
+				loading={loading}
+				setLoading={setLoading}>
+			</NFTCard>
 			<IpfsUpload
 				state={state}
 				setState={setState}
@@ -118,12 +124,12 @@ function App() {
 				onSubmit={onSubmit}
 				captureFile={captureFile}
 				ipfsHash={ipfsHash}
-				injectedProvider={injectedProvider} 
+				injectedProvider={injectedProvider}
 				contract={contract}
 			>
 			</IpfsUpload>
 			<Switch>
-			<Route path='/dashboard' component={MetaData} />
+				<Route path='/dashboard' component={MetaData} />
 			</Switch>
 		</div>
 	);

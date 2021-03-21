@@ -28,9 +28,10 @@ const logoutOfWeb3Modal = async () => {
   }, 1);
 };
 
-export default function Header({ injectedProvider, setInjectedProvider, setTrigger, trigger }) {
+export default function Header({ injectedProvider, setInjectedProvider, setTrigger, trigger, contract }) {
   // const [injectedProvider, setInjectedProvider] = useState();
   const [userAccount, setUserAccount] = useState();
+  const [nftSupply, setNFTSupply] = useState();
 
   const loadWeb3Modal = useCallback(async () => {
     const provider = await web3Modal.connect();
@@ -43,6 +44,13 @@ export default function Header({ injectedProvider, setInjectedProvider, setTrigg
     setUserAccount(account)
     console.log('accounts', account)
   }, [setInjectedProvider]);
+
+  useEffect(async () => {
+    if (!contract) return
+    const initContract = await contract
+		const supply = await initContract.totalSupply()
+    setNFTSupply(supply.toString())
+  })
 
   useEffect(() => {
     if (web3Modal.cachedProvider) {
@@ -66,7 +74,7 @@ export default function Header({ injectedProvider, setInjectedProvider, setTrigg
            loadWeb3Modal={loadWeb3Modal}
            logoutOfWeb3Modal={logoutOfWeb3Modal}
          />
-            <button className="flex font-display bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Number Redeemed</button>
+            <button className="flex font-display bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Number Redeemed: {nftSupply ? nftSupply : null}</button>
             <button className="font-display bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex">Buy</button>
           </div>
         </div>
