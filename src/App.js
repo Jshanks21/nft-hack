@@ -10,17 +10,21 @@ import minter from './abi/minter'
 import { ethers } from 'ethers'
 import { local } from 'web3modal';
 
+const CONTRACT_MUMBAI = '0x8FE32445fe713e29E7e992573FAf5f9AEeB3A5f6'
+
 const ipfsClient = require('ipfs-http-client')
 const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' })
 
 function App() {
-  const [ipfsHash, setIpfsHash] = useState([])
-  const [state, setState] = useState({
+	const [injectedProvider, setInjectedProvider] = useState();
+	const [ipfsHash, setIpfsHash] = useState([])
+	const [state, setState] = useState({
 		tokenHash: [],
 		buffer: null,
 	});
-
-  const [loading, setLoading] = useState(false);
+	const [contract, setContract] = useState();
+	const [loading, setLoading] = useState(false);
+	const [trigger, setTrigger] = useState(0);
 
 	function captureFile(e) {
 		e.preventDefault()
@@ -33,27 +37,33 @@ function App() {
 		}
 	}
 
-  const onSubmit = async (e) => {
+	const onSubmit = async (e) => {
 		e.preventDefault()
 		setLoading(true)
 		const source = await ipfs.add(
 			state.buffer
 		)
 		if (source && source.path) {
-      setIpfsHash(x => [...x, source.path])
+			setIpfsHash(x => [...x, source.path])
 		}
 		setLoading(false)
 		console.log('source', source)
 	}
 
-  const loadContract = () => {
-    const provider = localStorage.getItem('provider')
-    return new ethers.Contract(
-        //CONTRACT_ADDRESS_RINKEBY, // replace with constant
-        curveMint,
-        provider.getSigner()
-    );
-};
+	const loadContract = () => {
+		return new ethers.Contract(
+			CONTRACT_MUMBAI,
+			curveMint,
+			injectedProvider
+		);
+	};
+
+	useEffect(() => {
+		if(!injectedProvider) return
+		console.log('prov', injectedProvider)
+		const newContract = loadContract()
+		setContract(newContract)
+	}, [ipfsHash, trigger, injectedProvider])
 
 	// Could be useful somewhere else to get last NFT minted
 
@@ -64,13 +74,29 @@ function App() {
 	//     return lastNft
 	//   } 
 
-  return (
-    <div className="p-5">
-        <Header></Header>
-        <NFTCard imageSource={ipfsHash}></NFTCard>
-        <IpfsUpload state={state} setState={setState} loading={loading} setLoading={setLoading} onSubmit={onSubmit} captureFile={captureFile}></IpfsUpload>        
-    </div>
-  );
+	return (
+		<div className="p-5">
+			<Header 
+				injectedProvider={injectedProvider} 
+				setInjectedProvider={setInjectedProvider} 
+				setTrigger={setTrigger} 
+				trigger={trigger}
+			>
+			</Header>
+			<NFTCard imageSource={ipfsHash} contract={contract}></NFTCard>
+			<IpfsUpload
+				state={state}
+				setState={setState}
+				loading={loading}
+				setLoading={setLoading}
+				onSubmit={onSubmit}
+				captureFile={captureFile}
+				ipfsHash={ipfsHash}
+				contract={contract}
+			>
+			</IpfsUpload>
+		</div>
+	);
 }
 
 export default App;

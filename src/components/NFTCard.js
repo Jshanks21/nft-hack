@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import AnimatedCard from "@sl-codeblaster/react-3d-animated-card";
 
-export default function NFTCard({ imageSource }) {
+export default function NFTCard({ imageSource, contract }) {
 
 	let imageDisplay
 
 	if(imageSource.length > 0) {
 		imageDisplay = imageSource.map(hash => {
 			return (
-				<div className="">
+				<div className="" key={hash}>
 					<img 
 						className="shadow-2xl w-2/5 m-10" 
 						src={`https://ipfs.io/ipfs/${hash}`} 

@@ -1,4 +1,5 @@
 const { INFURA_ID } = require('./secrets.json');
+
 export const NETWORK = (chainId)=>{
     for(let n in NETWORKS){
       if(NETWORKS[n].chainId==chainId){

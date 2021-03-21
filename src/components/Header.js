@@ -28,8 +28,8 @@ const logoutOfWeb3Modal = async () => {
   }, 1);
 };
 
-export default function Header() {
-  const [injectedProvider, setInjectedProvider] = useState();
+export default function Header({ injectedProvider, setInjectedProvider, setTrigger, trigger }) {
+  // const [injectedProvider, setInjectedProvider] = useState();
   const [userAccount, setUserAccount] = useState();
 
   const loadWeb3Modal = useCallback(async () => {
@@ -40,7 +40,6 @@ export default function Header() {
 
     let account = await injectedProvider.listAccounts()
     localStorage.setItem('account', account)
-    localStorage.setItem('provider', injectedProvider)
     setUserAccount(account)
     console.log('accounts', account)
   }, [setInjectedProvider]);
@@ -49,7 +48,12 @@ export default function Header() {
     if (web3Modal.cachedProvider) {
       loadWeb3Modal();
     }
+    setTrigger(trigger++)
   }, [loadWeb3Modal]);
+
+  useEffect(() => {
+    console.log('header prov', injectedProvider)
+  }, [injectedProvider])
 
   return (
     <div>

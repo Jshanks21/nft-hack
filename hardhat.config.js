@@ -1,9 +1,9 @@
 require('@nomiclabs/hardhat-ethers');
 require("@nomiclabs/hardhat-truffle5");
 
-const defaultNetwork = "localhost";
+const defaultNetwork = "mumbai";
 
-const { INFURA_KEY, MNEMONIC } = require('./secrets.json');
+const { INFURA_KEY, MNEMONIC } = require('./src/secrets.json');
 
 module.exports = {
   defaultNetwork,
