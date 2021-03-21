@@ -11,7 +11,7 @@ contract NFTMinter is ERC721, Ownable {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
 
-    mapping(bytes32 => uint256) public uriToTokenId;
+    mapping(string => uint256) public uriToTokenId; // need to remove when burned
 
     constructor() public ERC721("Curve NFT", "CNFT") {
         _setBaseURI("https://ipfs.io/ipfs/");
@@ -22,19 +22,23 @@ contract NFTMinter is ERC721, Ownable {
         onlyOwner
         returns (uint256)
     {
-        bytes32 uriHash = keccak256(abi.encodePacked(tokenURI));
+        //bytes32 uriHash = keccak256(abi.encodePacked(tokenURI));
         _tokenIds.increment();
 
         uint256 id = _tokenIds.current();
-        _mint(to, id); // to curvenft
+        _mint(to, id); 
         _setTokenURI(id, tokenURI);
 
-		uriToTokenId[uriHash] = id;
+		uriToTokenId[tokenURI] = id;
 
         return id;
     }
 
-    function exists(uint256 id) public view returns (bool) {
-        _exists(id);
+    function burn(uint256 tokenId) internal onlyOwner {
+        _burn(tokenId);
+    }
+
+    function exists(uint256 tokenId) public view returns (bool) {
+        _exists(tokenId);
     }
 }
