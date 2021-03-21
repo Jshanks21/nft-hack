@@ -2,18 +2,18 @@
 pragma solidity >=0.6.0 <0.7.0;
 
 import "hardhat/console.sol";
+import './NFTMinter.sol';
 import '@openzeppelin/contracts/token/ERC721/IERC721.sol';
 import '@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol';
 import '@openzeppelin/contracts/introspection/ERC165.sol';
 
-contract CurveNFT is ERC165 {
+contract CurveMintNFT is ERC165, NFTMinter {
 
     uint256 public currentPrice;
     uint256 public startingAt = 0.01 ether;
     uint16 public constant numerator = 1337;
     uint16 public constant denominator = 1000;
 
-    IERC721 public nft;
 
     //mapping(uint256 => uint256) public price;
     mapping(address => uint256) public balances;
@@ -21,8 +21,7 @@ contract CurveNFT is ERC165 {
     event Buy(address indexed buyer,uint256 price);
     event Sell(address indexed buyer, uint256 price);
 
-    constructor(IERC721 _nft) public {
-        nft = _nft;
+    constructor() public {
         _registerInterface(IERC721Receiver.onERC721Received.selector);
     }
 
@@ -36,12 +35,11 @@ contract CurveNFT is ERC165 {
         return (uint256(currentPrice * denominator) / numerator);
     }
 
-    function buy(uint256 id) public payable {
+    function buy(string memory tokenURI) public payable {
         currentPrice = nextPrice();
         require(msg.value == currentPrice, "WRONG AMOUNT SORRY");
         balances[msg.sender]++;
-        nft.approve(msg.sender, id);
-        nft.safeTransferFrom(address(this), msg.sender, id);
+        NFTMinter.mintItem(msg.sender, tokenURI);
         emit Buy(msg.sender, currentPrice);
     }
 
@@ -52,7 +50,7 @@ contract CurveNFT is ERC165 {
         require(balances[msg.sender] > 0, "NONE TO SELL");
         balances[msg.sender]--;
         msg.sender.transfer(salePrice);
-        nft.safeTransferFrom(msg.sender, address(this), id);
+        NFTMinter.burn(id);
         emit Sell(msg.sender, salePrice);
     }
 
