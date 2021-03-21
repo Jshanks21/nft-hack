@@ -3,7 +3,7 @@ require("@nomiclabs/hardhat-truffle5");
 
 const defaultNetwork = "localhost";
 
-const { INFURA_KEY, mnemonic, WALLET_PRIV } = require('./secrets.json');
+const { INFURA_KEY, MNEMONIC } = require('./secrets.json');
 
 module.exports = {
   defaultNetwork,
@@ -18,52 +18,52 @@ module.exports = {
     rinkeby: {
       url: `https://rinkeby.infura.io/v3/${INFURA_KEY}`,
       accounts: {
-        mnemonic: mnemonic,
+        mnemonic: MNEMONIC,
       },
     },
     kovan: {
       url: `https://kovan.infura.io/v3/${INFURA_KEY}`,
       accounts: {
-        mnemonic: mnemonic,
+        mnemonic: MNEMONIC,
       },
     },
     mainnet: {
       url: `https://mainnet.infura.io/v3/${INFURA_KEY}`,
       accounts: {
-        mnemonic: mnemonic,
+        mnemonic: MNEMONIC,
       },
     },
     ropsten: {
       url: `https://ropsten.infura.io/v3/${INFURA_KEY}`,
       accounts: {
-        mnemonic: mnemonic,
+        mnemonic: MNEMONIC,
       },
     },
     goerli: {
       url: `https://goerli.infura.io/v3/${INFURA_KEY}`,
       accounts: {
-        mnemonic: mnemonic,
+        mnemonic: MNEMONIC,
       },
     },
     xdai: {
       url: 'https://rpc.xdaichain.com/',
       gasPrice: 1000000000,
       accounts: {
-        mnemonic: mnemonic,
+        mnemonic: MNEMONIC,
       },
     }, 
     mumbai: {
       url: 'https://rpc-mumbai.matic.today',
       gasPrice: 1000000000,
       accounts: {
-        mnemonic: mnemonic,
+        mnemonic: MNEMONIC,
       },
     },
     matic: {
       url: 'https://rpc-mainnet.maticvigil.com/',
       gasPrice: 1000000000,
       accounts: {
-        mnemonic: mnemonic,
+        mnemonic: MNEMONIC,
       },
     },
   },

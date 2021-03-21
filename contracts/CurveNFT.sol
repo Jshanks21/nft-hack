@@ -1,87 +1,64 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.6.0 <0.7.0;
 
-//import "hardhat/console.sol";
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/utils/Counters.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+import "hardhat/console.sol";
+import './NFTMinter.sol';
+import './ReceiverSupport.sol';
+import '@openzeppelin/contracts/token/ERC721/IERC721.sol';
+import '@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol';
+import '@openzeppelin/contracts/introspection/ERC165.sol';
 
-contract CurveNFT is ERC721, Ownable {
-    using Counters for Counters.Counter;
-    Counters.Counter private _tokenIds;
+contract CurveNFT is ERC165 {
 
-    uint256 constant startingAt = 0.01 ether;
-    uint16 constant numerator = 1337;
-    uint16 constant denominator = 1000;
+    uint256 public currentPrice;
+    uint256 public startingAt = 0.01 ether;
+    uint16 public constant numerator = 1337;
+    uint16 public constant denominator = 1000;
 
-    mapping(uint256 => uint256) public price;
-    mapping(bytes32 => uint256) public uriToTokenId;
-    mapping(uint256 => mapping(address => uint256)) public balances;
+    IERC721 public nft;
 
-    event Buy(address indexed buyer, uint256 indexed id, uint256 price /*, bytes data*/);
-    event Sell(address indexed buyer, uint256 indexed id, uint256 price);
+    //mapping(uint256 => uint256) public price;
+    mapping(address => uint256) public balances;
 
-    constructor() public ERC721("Curve NFT", "CNFT") {
-        _setBaseURI("https://ipfs.io/ipfs/");
+    event Buy(address indexed buyer,uint256 price);
+    event Sell(address indexed buyer, uint256 price);
+
+    constructor(IERC721 _nft) public {
+        nft = _nft;
+        _registerInterface(IERC721Receiver.onERC721Received.selector);
     }
 
-    function mintItem(address to, string memory tokenURI)
-        public
-        onlyOwner
-        returns (uint256)
-    {
-        bytes32 uriHash = keccak256(abi.encodePacked(tokenURI));
-        _tokenIds.increment();
-
-        uint256 id = _tokenIds.current();
-        _mint(to, id);
-        _setTokenURI(id, tokenURI);
-
-		uriToTokenId[uriHash] = id;
-
-        return id;
+    function nextPrice() public view returns (uint256) {
+        if (currentPrice == 0) return startingAt;
+        return (uint256(currentPrice * numerator) / denominator);
     }
 
-    function nextPrice(
-        uint256 id
-    ) public view returns (uint256) {
-        if (price[id] == 0) return startingAt;
-        return (uint256(price[id] * numerator) / denominator);
+    function prevPrice() public view returns (uint256) {
+        if (currentPrice <= startingAt) return startingAt;
+        return (uint256(currentPrice * denominator) / numerator);
     }
 
-    function prevPrice(
-        uint256 id
-    ) public view returns (uint256) {
-        if (price[id] <= startingAt) return startingAt;
-        return (uint256(price[id] * denominator) / numerator);
+    function buy(uint256 id) public payable {
+        currentPrice = nextPrice();
+        require(msg.value == currentPrice, "WRONG AMOUNT SORRY");
+        balances[msg.sender]++;
+        nft.approve(msg.sender, id);
+        nft.safeTransferFrom(address(this), msg.sender, id);
+        emit Buy(msg.sender, currentPrice);
     }
 
-    function buy(
-        uint256 id
-		/*, bytes memory data*/
-    ) public payable {
-        price[id] = nextPrice(id);
-        require(msg.value == price[id], "WRONG AMOUNT SORRY");
-        balances[id][msg.sender]++;
-        safeTransferFrom(address(this), msg.sender, id);
-        emit Buy(
-            msg.sender,
-            id,
-            price[id] 
-			/*, data*/
-        );
-    }
-
-    function sell(
-        uint256 id
-    ) public payable {
-        uint256 salePrice = price[id];
-        price[id] = prevPrice(id);
-        if (price[id] <= startingAt) price[id] = startingAt;
-        require(balances[id][msg.sender] > 0, "NONE TO SELL");
-        balances[id][msg.sender]--;
+    function sell(uint256 id) public payable {
+        uint256 salePrice = currentPrice;
+        currentPrice = prevPrice(); 
+        if (currentPrice <= startingAt) currentPrice = startingAt;
+        require(balances[msg.sender] > 0, "NONE TO SELL");
+        balances[msg.sender]--;
         msg.sender.transfer(salePrice);
-        safeTransferFrom(msg.sender, address(this), id);
-        emit Sell(msg.sender, id, salePrice);
+        nft.safeTransferFrom(msg.sender, address(this), id);
+        emit Sell(msg.sender, salePrice);
+    }
+
+    function onERC721Received(address, address, uint256, bytes memory) public pure virtual returns (bytes4) {
+        return this.onERC721Received.selector;
     }
 }
