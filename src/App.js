@@ -49,7 +49,7 @@ function App() {
   const loadContract = () => {
     const provider = localStorage.getItem('provider')
     return new ethers.Contract(
-        CONTRACT_ADDRESS_RINKEBY, // replace with constant
+        //CONTRACT_ADDRESS_RINKEBY, // replace with constant
         curveMint,
         provider.getSigner()
     );
