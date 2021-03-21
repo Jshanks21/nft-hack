@@ -10,22 +10,20 @@ export default function NFTCard({ imageSource }) {
 
 	let imageDisplay
 
-		if(imageSource.length > 0) {
-			imageDisplay = imageSource.map(hash => {
-				return (
-					<div className="">
-						<img 
-							className="shadow-2xl w-2/5 m-10" 
-							src={`https://ipfs.io/ipfs/${hash}`} 
-							alt="" 
-						/>
-					</div>
-				)
-			})
-		}
+	if(imageSource.length > 0) {
+		imageDisplay = imageSource.map(hash => {
+			return (
+				<div className="">
+					<img 
+						className="shadow-2xl w-2/5 m-10" 
+						src={`https://ipfs.io/ipfs/${hash}`} 
+						alt="" 
+					/>
+				</div>
+			)
+		})
+	}
 		
-	
-	 
 	// if(imageSource) {
 	// 	imageDisplay = imageSource.map((imgHash) => {
 	// 		return (
@@ -73,77 +71,8 @@ export default function NFTCard({ imageSource }) {
 			<div className="flex items-center">
 
 				{imageDisplay}
-
-			{/* <AnimatedCard
-			config={{
-				rotation: 40, // this value for the divide (window.innerWidth / 2 - e.pageX) / rotation && (window.innerWidth / 2 - e.pageY) / rotation
-				transition: {
-					duration: 0.25,
-					timingMode: "ease"
-				},
-				transform: {
-					figureIcon: {
-						rotation: 5,
-						translateZ: 100
-					},
-					titleTranslateZ: 140,
-					bodyTextTranslateZ: 100,
-					buttonTranslateZ: 80
-				}
-			}}
-			style={{
-				width: 350 //container style (you can use className as well)
-			}}
-		>
-				<div className="card">
-				<div className="figure">
-					<div className="figure_bg" />
-					<img 
-						className="shadow-2xl" //`https://ipfs.io/ipfs/${state.ipfsHash}`
-						src={`https://ipfs.io/ipfs/${imageSource[0]}`} 
-						alt="" 
-					/>
-				</div>
-			</div>
-	
-		</AnimatedCard>
-
-		<AnimatedCard
-			config={{
-				rotation: 40, // this value for the divide (window.innerWidth / 2 - e.pageX) / rotation && (window.innerWidth / 2 - e.pageY) / rotation
-				transition: {
-					duration: 0.25,
-					timingMode: "ease"
-				},
-				transform: {
-					figureIcon: {
-						rotation: 5,
-						translateZ: 100
-					},
-					titleTranslateZ: 140,
-					bodyTextTranslateZ: 100,
-					buttonTranslateZ: 80
-				}
-			}}
-			style={{
-				width: 350 //container style (you can use className as well)
-			}}
-		>
-	
-			<div className="card">
-				<div className="figure">
-					<div className="figure_bg" />
-					<img 
-						className="shadow-2xl" //`https://ipfs.io/ipfs/${state.ipfsHash}`
-						src={`https://ipfs.io/ipfs/${imageSource[1]}`} 
-						alt="" 
-					/>
-				</div>
-			</div>
-	
-		</AnimatedCard> */}
 		
-		</div>
+			</div>
 
 			<div className="container mx-auto">
 				<h1>Title of NFT</h1>
