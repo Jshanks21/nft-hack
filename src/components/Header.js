@@ -42,15 +42,15 @@ export default function Header({ injectedProvider, setInjectedProvider, setTrigg
     let account = await injectedProvider.listAccounts()
     localStorage.setItem('account', account)
     setUserAccount(account)
-    console.log('accounts', account)
+    //console.log('accounts', account)
   }, [setInjectedProvider]);
 
-  useEffect(async () => {
-    if (!contract) return
-    const initContract = await contract
-		const supply = await initContract.totalSupply()
-    setNFTSupply(supply.toString())
-  })
+  // useEffect(async () => {
+  //   if (!contract) return
+  //   const initContract = await contract
+	// 	const supply = await initContract.totalSupply()
+  //   setNFTSupply(supply.toString())
+  // })
 
   useEffect(() => {
     if (web3Modal.cachedProvider) {
@@ -59,23 +59,19 @@ export default function Header({ injectedProvider, setInjectedProvider, setTrigg
     setTrigger(trigger++)
   }, [loadWeb3Modal]);
 
-  useEffect(() => {
-    console.log('header prov', injectedProvider)
-  }, [injectedProvider])
 
   return (
     <div>
-      <nav className="bg-white w-full">
+      <nav className="bg-white">
         <div className="flex flex-row justify-between">
           <h1 className="flex font-display text-6xl uppercase">DynamicRare</h1>
-          <div className="flex justify-between space-x-4 right-0">
+          <div className="flex justify-around">
           <Account
            web3Modal={web3Modal}
            loadWeb3Modal={loadWeb3Modal}
            logoutOfWeb3Modal={logoutOfWeb3Modal}
          />
-            <button className="flex font-display bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Number Redeemed: {nftSupply ? nftSupply : null}</button>
-            <button className="font-display bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex">Buy</button>
+            <div className="ml-4 border-2  border-black hover:bg-black hover:text-white px-4 flex my-auto">NFTs Purchased: {nftSupply ? nftSupply : null}</div>
           </div>
         </div>
       </nav>

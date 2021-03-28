@@ -20,7 +20,7 @@ export default function Account({
     if (web3Modal.cachedProvider) {
       modalButtons.push(
         <button
-          className="ml-8 mt-4"
+          className="mx-auto my-auto px-2"
           onClick={logoutOfWeb3Modal}
         >
           Logout
@@ -29,7 +29,7 @@ export default function Account({
     } else {
       modalButtons.push(
         <button
-          className="ml-8 mt-4"
+          className="mx-auto my-auto px-2"
           onClick={loadWeb3Modal}
         >
           Connect
@@ -49,8 +49,8 @@ export default function Account({
 //   );
 
   return (
-    <div>
+    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded">
       {modalButtons}
-    </div>
+    </button>
   );
 }

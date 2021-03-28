@@ -25,10 +25,6 @@ contract CurveMintNFT is ERC165, NFTMinter {
         _registerInterface(IERC721Receiver.onERC721Received.selector);
     }
 
-    fallback() external {
-        buy('test');
-    }
-
     function nextPrice() public view returns (uint256) {
         if (currentPrice == 0) return startingAt;
         return (uint256(currentPrice * numerator) / denominator);

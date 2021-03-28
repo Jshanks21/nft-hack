@@ -6,10 +6,21 @@ const ipfsClient = require('ipfs-http-client')
 const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' })
 
 export default function IpfsUpload({ state, setState, setLoading, loading, onSubmit, captureFile, ipfsHash, injectedProvider, contract }) {
-
+	const [ids, setIds] = useState([])
+	
 	useEffect(async () => {
-		console.log('contract', await contract)
-	}, [contract])
+		if(!contract && !ipfsHash) return
+
+		let tokenIds =[]
+		ipfsHash.map(async(hash) => {
+			const initContract = await contract
+			const id = await initContract.uriToTokenId(hash)
+			tokenIds.push(id.toString())
+		})
+		setIds(tokenIds)
+	}, [contract, ipfsHash])
+
+	//console.log('state Ids', ids)
 
 	const onPurchase = async () => {
 		if (!contract && !ipfsHash) return
@@ -57,15 +68,25 @@ export default function IpfsUpload({ state, setState, setLoading, loading, onSub
 				
 			</form>
 
-			<div className="flex flex-row justify-around mt-10">
+			<div className="flex justify-around mt-10">
 				<button
 					className="font-display border-2 uppercase border-black hover:bg-black hover:text-white py-2 px-4 flex"
 					onClick={() => onPurchase()}
 				>
 					{!loading ? 'Buy' : <p className="animate-ping">Loading...</p>}
 				</button>
+
+				<select>
+					{ipfsHash.map(hash => {
+						return (
+							<option>NFT ID: </option>
+						)
+					})}
+				
+				</select>
+
 				<button 
-					className="disabled:opacity-50 font-display border-2 border-black uppercase hover:bg-black hover:text-white py-2 px-4 flex"
+					className="font-display border-2 border-black uppercase hover:bg-black hover:text-white py-2 px-4 flex"
 					onClick={() => onSale()}
 				>
 					{!loading ? 'Sell' : <p className="animate-ping">Loading...</p>}
