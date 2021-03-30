@@ -6,6 +6,10 @@ const CONTRACT_MUMBAI = '0x5BE326ba3D539a6C5387775465F6D24B798b3c49'
 
 export default function NFTCard({ imageSource, contract, loading, setLoading }) {
 	const [cName, setCName] = useState('')
+	const [ids, setIds] = useState([{
+		hash: '',
+		tid: ''
+	}])
 	const [contractData, setContractData] = useState({
 		lastPrice: '',
 		currPrice: '', 
@@ -13,16 +17,58 @@ export default function NFTCard({ imageSource, contract, loading, setLoading }) 
 	});
 
 	let imageDisplay
+	let count = 1
+
+	useEffect(() => {
+		if(!contract && !imageSource) return
+
+		let tokenIds =[]
+		imageSource.map(async(hash) => {
+			const initContract = await contract
+			const id = await initContract.uriToTokenId(hash)
+			tokenIds.push(id.toString())
+			setIds(x => [...x, {
+				hash: hash,
+				tid: id.toString()
+			}])
+		})
+		
+		console.log('tokenIds in card', tokenIds)
+	}, [imageSource, contract])
+
+	//console.log('tokenIds in state', ids)
+
+	// useEffect(async () => {
+	// 	if(!contract) return
+	// 	const initContract = await contract
+	// 	const allTokens = await initContract.totalSupply()
+	// 	if(!allTokens) return
+
+	// 	let allTokenIds = []
+	// 	for(i=0; i<allTokens; i++) {
+
+	// 	}
+	// 	allTokens.map(async(index) => {
+	// 		let id = await initContract.tokenByIndex(index)
+	// 		allTokenIds.push(id.toString())
+	// 	})
+
+	// 	console.log('allTokenIds in card', allTokens.toString())
+	// },[contract])
+
 
 	if(imageSource.length > 0) {
 		imageDisplay = imageSource.map(hash => {
 			return (
-				<div className="" key={hash}>
-					<img 
-						className="shadow-2xl w-2/5 m-10" 
-						src={`https://ipfs.io/ipfs/${hash}`} 
-						alt="" 
-					/>
+				<div className="grid grid-flow-col grid-cols-3 mb-4 container" key={hash}>
+					<a target="_blank" href={`https://ipfs.io/ipfs/${hash}`}>
+						<img 
+							className="shadow-2xl" 
+							src={`https://ipfs.io/ipfs/${hash}`} 
+							alt="" 
+						/>
+						View NFT #{count++} on IPFS
+					</a>
 				</div>
 			)
 		})
@@ -108,8 +154,8 @@ export default function NFTCard({ imageSource, contract, loading, setLoading }) 
 						{CONTRACT_MUMBAI}
 					</a>
 				</h2>
-				<p>Last Price of NFT: {contractData.lastPrice ? contractData.lastPrice : 'Loading...'}</p>
-				<p>Price of <b>your</b> NFT: {contractData.currPrice ? contractData.currPrice : 'Loading...'}</p>
+				<p>Price of last NFT: {contractData.lastPrice ? contractData.lastPrice : 'Loading...'}</p>
+				<p>Price of <b>YOUR</b> NFT: {contractData.currPrice ? contractData.currPrice : 'Loading...'}</p>
 				<p>Price of next NFT: {contractData.nextPrice ? contractData.nextPrice : 'Loading...'}</p>
 			</div>
 		</div>

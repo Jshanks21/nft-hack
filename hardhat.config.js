@@ -1,7 +1,7 @@
 require('@nomiclabs/hardhat-ethers');
 require("@nomiclabs/hardhat-truffle5");
 
-const defaultNetwork = "mumbai";
+const defaultNetwork = "rinkeby";
 
 const { INFURA_KEY, MNEMONIC } = require('./src/secrets.json');
 

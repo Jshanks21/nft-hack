@@ -1,27 +1,18 @@
 import React from "react";
-// import Address from "./Address";
-// import Balance from "./Balance";
-// import Wallet from "./Wallet";
 
 export default function Account({
-  address,
-  userProvider,
-  localProvider,
-  mainnetProvider,
-  price,
-  minimized,
+  account,
   web3Modal,
-  loadWeb3Modal,
-  logoutOfWeb3Modal,
-  blockExplorer,
+  connect,
+  disconnect,
 }) {
   const modalButtons = [];
   if (web3Modal) {
     if (web3Modal.cachedProvider) {
       modalButtons.push(
         <button
-          className="ml-8 mt-4"
-          onClick={logoutOfWeb3Modal}
+          className="mx-auto my-auto px-2"
+          onClick={disconnect}
         >
           Logout
         </button>
@@ -29,8 +20,8 @@ export default function Account({
     } else {
       modalButtons.push(
         <button
-          className="ml-8 mt-4"
-          onClick={loadWeb3Modal}
+          className="mx-auto my-auto px-2"
+          onClick={connect}
         >
           Connect
         </button>
@@ -38,19 +29,12 @@ export default function Account({
     }
   }
 
-//   const display = minimized ? (
-//     ""
-//   ) : (
-//     <span>
-//       {address ? <Address address={address} ensProvider={mainnetProvider} blockExplorer={blockExplorer} /> : "Connecting..."}
-//       <Balance address={address} provider={localProvider} price={price} />
-//       <Wallet address={address} provider={userProvider} ensProvider={mainnetProvider} price={price} />
-//     </span>
-//   );
-
   return (
-    <div>
+    <>
+    <span className="mr-5">{account ? `Account: ${account.substr(0, 6)}...` : null}</span>
+    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded">
       {modalButtons}
-    </div>
+    </button>
+    </>
   );
 }
