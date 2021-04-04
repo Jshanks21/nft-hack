@@ -227,11 +227,6 @@ function App() {
 				contract={contract}
 			>
 			</BuySell>
-			{!account && <button onClick={activateBrowserWallet} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Connect</button>}
-			{account && <button onClick={deactivate} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"> Disconnect </button>}
-
-			{account && <p>Account: {account}</p>}
-      		{userBalance && <p>Ether balance: {ethers.utils.formatEther(userBalance)} ETH </p>}
 			<Switch>
 				<Route path='/dashboard' component={MetaData} />
 			</Switch>
