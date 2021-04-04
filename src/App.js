@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-//import './App.css'
 import { getChain } from 'evm-chains';
 import NFTCard from './components/NFTCard'
 import Header from './components/Header'
@@ -10,13 +9,10 @@ import minter from './abi/minter'
 import { ethers } from 'ethers'
 import Web3Modal from 'web3modal';
 import WalletConnectProvider from "@walletconnect/web3-provider";
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import MetaData from './components/MetaData'
 import { useEthers, useEtherBalance } from '@usedapp/core';
 import { NETWORK, NETWORKS } from './constants.js';
-
-const CONTRACT_MUMBAI = '0x5BE326ba3D539a6C5387775465F6D24B798b3c49'
-const CONTRACT_RINKEBY = '0x01a9FBe75907846b4334454f0A3cEeaE322DcD74'
 
 require('dotenv').config()
 const ipfsClient = require('ipfs-http-client')
@@ -50,16 +46,8 @@ function App() {
 		defaultProvider: null
 	});
 
-	useEffect(() => {
-		console.log('env', process.env.REACT_APP_MNEMONIC)
-	}, [])
-
-	const { activateBrowserWallet, deactivate, account } = useEthers()
+	const { account } = useEthers()
 	const userBalance = useEtherBalance(account)
-
-	console.log('account', account)
-	console.log('userBalance', userBalance)
-
 
 	useEffect(async () => {
 		const web3Modal = new Web3Modal({
@@ -180,7 +168,7 @@ function App() {
 
 	const loadContract = async () => {
 		return new ethers.Contract(
-			CONTRACT_MUMBAI,
+			process.env.CONTRACT_RINKEBY,
 			curveMint,
 			userState.signer
 		);
@@ -204,19 +192,14 @@ function App() {
 	return (
 		<div className="p-5">
 			<Header
-				account={userState.account}
-				web3Modal={web3Modal}
 				contract={contract}
-				connect={connect}
-				disconnect={disconnect}
-			>
-			</Header>
+			/>
 			<NFTCard
 				imageSource={ipfsHash}
 				contract={contract}
 				loading={loading}
-				setLoading={setLoading}>
-			</NFTCard>
+				setLoading={setLoading}
+			/>
 			<BuySell
 				loading={loading}
 				setLoading={setLoading}
@@ -225,8 +208,7 @@ function App() {
 				ipfsHash={ipfsHash}
 				provider={userState.signer}
 				contract={contract}
-			>
-			</BuySell>
+			/>
 			<Switch>
 				<Route path='/dashboard' component={MetaData} />
 			</Switch>
