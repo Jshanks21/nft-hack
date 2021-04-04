@@ -1,9 +1,8 @@
+require('dotenv').config()
 require('@nomiclabs/hardhat-ethers');
 require("@nomiclabs/hardhat-truffle5");
 
 const defaultNetwork = "rinkeby";
-
-const { INFURA_KEY, MNEMONIC } = require('./src/secrets.json');
 
 module.exports = {
   defaultNetwork,
@@ -16,54 +15,54 @@ module.exports = {
       */
     },
     rinkeby: {
-      url: `https://rinkeby.infura.io/v3/${INFURA_KEY}`,
+      url: `https://rinkeby.infura.io/v3/${process.env.REACT_APP_INFURA_KEY}`,
       accounts: {
-        mnemonic: MNEMONIC,
+        mnemonic: process.env.REACT_APP_MNEMONIC,
       },
     },
     kovan: {
-      url: `https://kovan.infura.io/v3/${INFURA_KEY}`,
+      url: `https://kovan.infura.io/v3/${process.env.REACT_APP_INFURA_KEY}`,
       accounts: {
-        mnemonic: MNEMONIC,
+        mnemonic: process.env.REACT_APP_MNEMONIC,
       },
     },
     mainnet: {
-      url: `https://mainnet.infura.io/v3/${INFURA_KEY}`,
+      url: `https://mainnet.infura.io/v3/${process.env.REACT_APP_INFURA_KEY}`,
       accounts: {
-        mnemonic: MNEMONIC,
+        mnemonic: process.env.REACT_APP_MNEMONIC,
       },
     },
     ropsten: {
-      url: `https://ropsten.infura.io/v3/${INFURA_KEY}`,
+      url: `https://ropsten.infura.io/v3/${process.env.REACT_APP_INFURA_KEY}`,
       accounts: {
-        mnemonic: MNEMONIC,
+        mnemonic: process.env.REACT_APP_MNEMONIC,
       },
     },
     goerli: {
-      url: `https://goerli.infura.io/v3/${INFURA_KEY}`,
+      url: `https://goerli.infura.io/v3/${process.env.REACT_APP_INFURA_KEY}`,
       accounts: {
-        mnemonic: MNEMONIC,
+        mnemonic: process.env.REACT_APP_MNEMONIC,
       },
     },
     xdai: {
       url: 'https://rpc.xdaichain.com/',
       gasPrice: 1000000000,
       accounts: {
-        mnemonic: MNEMONIC,
+        mnemonic: process.env.REACT_APP_MNEMONIC,
       },
     }, 
     mumbai: {
       url: 'https://rpc-mumbai.matic.today',
       gasPrice: 1000000000,
       accounts: {
-        mnemonic: MNEMONIC,
+        mnemonic: process.env.REACT_APP_MNEMONIC,
       },
     },
     matic: {
       url: 'https://rpc-mainnet.maticvigil.com/',
       gasPrice: 1000000000,
       accounts: {
-        mnemonic: MNEMONIC,
+        mnemonic: process.env.REACT_APP_MNEMONIC,
       },
     },
   },

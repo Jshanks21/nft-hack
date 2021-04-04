@@ -145,7 +145,7 @@ export default function NFTCard({ imageSource, contract, loading, setLoading }) 
 
 			<div className="container mx-auto">
 				<h1>{cName ? cName : 'loading...'}</h1>
-				<h2>Live on Mumbai Testnet: 
+				{/* <h2>Live on Mumbai Testnet: 
 					<a 
 						target="_blank" 
 						href={`https://explorer-mumbai.maticvigil.com/address/${CONTRACT_MUMBAI}/transactions`}
@@ -153,7 +153,7 @@ export default function NFTCard({ imageSource, contract, loading, setLoading }) 
 					>
 						{CONTRACT_MUMBAI}
 					</a>
-				</h2>
+				</h2> */}
 				<p>Price of last NFT: {contractData.lastPrice ? contractData.lastPrice : 'Loading...'}</p>
 				<p>Price of <b>YOUR</b> NFT: {contractData.currPrice ? contractData.currPrice : 'Loading...'}</p>
 				<p>Price of next NFT: {contractData.nextPrice ? contractData.nextPrice : 'Loading...'}</p>

@@ -13,8 +13,10 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "@usedapp/core": "^0.3.4",
     "@walletconnect/web3-provider": "^1.4.0",
     "axios": "^0.21.1",
+    "dotenv": "^8.2.0",
     "eth-hooks": "^1.1.2",
     "ethers": "^5.0.32",
     "evm-chains": "^0.2.0",
@@ -24,32 +26,15 @@
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
-    "web-vitals": "^1.0.1",
     "web3modal": "^1.9.3"
   },
   "scripts": {
     "start": "craco start",
+    "chain": "hardhat node",
+    "deploy": "hardhat run scripts/deploy_minting.js",
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
   },
   "devDependencies": {
     "@tailwindcss/postcss7-compat": "^2.0.4",

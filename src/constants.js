@@ -1,4 +1,4 @@
-const { INFURA_KEY } = require('./secrets.json');
+require('dotenv').config()
 
 export const NETWORK = (chainId)=>{
     for(let n in NETWORKS){
@@ -20,14 +20,14 @@ export const NETWORK = (chainId)=>{
           name: "mainnet",
           color: '#ff8b9e',
           chainId: 1,
-          rpcUrl: `https://mainnet.infura.io/v3/${INFURA_KEY}`,
+          rpcUrl: `https://mainnet.infura.io/v3/${process.env.REACT_APP_INFURA_KEY}`,
           blockExplorer: "https://etherscan.io/",
       },
       kovan: {
           name: "kovan",
           color: '#7003DD',
           chainId: 42,
-          rpcUrl: `https://kovan.infura.io/v3/${INFURA_KEY}`,
+          rpcUrl: `https://kovan.infura.io/v3/${process.env.REACT_APP_INFURA_KEY}`,
           blockExplorer: "https://kovan.etherscan.io/",
           faucet: "https://gitter.im/kovan-testnet/faucet",//https://faucet.kovan.network/
       },
@@ -35,7 +35,7 @@ export const NETWORK = (chainId)=>{
           name: "rinkeby",
           color: '#e0d068',
           chainId: 4,
-          rpcUrl: `https://rinkeby.infura.io/v3/${INFURA_KEY}`,
+          rpcUrl: `https://rinkeby.infura.io/v3/${process.env.REACT_APP_INFURA_KEY}`,
           faucet: "https://faucet.rinkeby.io/",
           blockExplorer: "https://rinkeby.etherscan.io/",
       },
@@ -45,7 +45,7 @@ export const NETWORK = (chainId)=>{
           chainId: 3,
           faucet: "https://faucet.ropsten.be/",
           blockExplorer: "https://ropsten.etherscan.io/",
-          rpcUrl: `https://ropsten.infura.io/v3/${INFURA_KEY}`,
+          rpcUrl: `https://ropsten.infura.io/v3/${process.env.REACT_APP_INFURA_KEY}`,
       },
       goerli: {
           name: "goerli",
@@ -53,7 +53,7 @@ export const NETWORK = (chainId)=>{
           chainId: 5,
           faucet: "https://goerli-faucet.slock.it/",
           blockExplorer: "https://goerli.etherscan.io/",
-          rpcUrl: `https://goerli.infura.io/v3/${INFURA_KEY}`,
+          rpcUrl: `https://goerli.infura.io/v3/${process.env.REACT_APP_INFURA_KEY}`,
       },
       xdai: {
           name: "xdai",

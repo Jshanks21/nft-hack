@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './App.css'
+//import './App.css'
 import { getChain } from 'evm-chains';
 import NFTCard from './components/NFTCard'
 import Header from './components/Header'
@@ -12,21 +12,21 @@ import Web3Modal from 'web3modal';
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import MetaData from './components/MetaData'
+import { useEthers, useEtherBalance } from '@usedapp/core';
 import { NETWORK, NETWORKS } from './constants.js';
 
 const CONTRACT_MUMBAI = '0x5BE326ba3D539a6C5387775465F6D24B798b3c49'
 const CONTRACT_RINKEBY = '0x01a9FBe75907846b4334454f0A3cEeaE322DcD74'
 
+require('dotenv').config()
 const ipfsClient = require('ipfs-http-client')
 const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' })
-
-const { INFURA_KEY } = require('./secrets.json');
 
 const providerOptions = {
 	walletconnect: {
 		package: WalletConnectProvider,
 		options: {
-			infuraId: INFURA_KEY,
+			infuraId: process.env.REACT_APP_INFURA_KEY,
 		}
 	}
 };
@@ -49,6 +49,17 @@ function App() {
 		web3Provider: null,
 		defaultProvider: null
 	});
+
+	useEffect(() => {
+		console.log('env', process.env.REACT_APP_MNEMONIC)
+	}, [])
+
+	const { activateBrowserWallet, deactivate, account } = useEthers()
+	const userBalance = useEtherBalance(account)
+
+	console.log('account', account)
+	console.log('userBalance', userBalance)
+
 
 	useEffect(async () => {
 		const web3Modal = new Web3Modal({
@@ -103,14 +114,14 @@ function App() {
 				if (provider.accounts[0] !== 'undefined') {
 					account = await provider.accounts[0]
 					network = await getChain(provider.chainId)
-					defaultProvider = ethers.getDefaultProvider('mumbai', { infura: INFURA_KEY	})
+					defaultProvider = ethers.getDefaultProvider('mumbai', { infura: process.env.REACT_APP_INFURA_KEY	})
 					signer = defaultProvider.getSigner()
 					balance = await defaultProvider.getBalance(account)
 				} else { //handle problem with providing data
 					account = null
 					network = null
 					balance = null
-					defaultProvider = ethers.getDefaultProvider('mumbai', { infura: INFURA_KEY	})
+					defaultProvider = ethers.getDefaultProvider('mumbai', { infura: process.env.REACT_APP_INFURA_KEY	})
 				}
 			} else {
 				window.alert('Error, provider not recognized')
@@ -216,6 +227,11 @@ function App() {
 				contract={contract}
 			>
 			</BuySell>
+			{!account && <button onClick={activateBrowserWallet} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Connect</button>}
+			{account && <button onClick={deactivate} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"> Disconnect </button>}
+
+			{account && <p>Account: {account}</p>}
+      		{userBalance && <p>Ether balance: {ethers.utils.formatEther(userBalance)} ETH </p>}
 			<Switch>
 				<Route path='/dashboard' component={MetaData} />
 			</Switch>
